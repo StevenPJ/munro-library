@@ -56,3 +56,6 @@ docker compose up -d   # using docker
 docker build . -t munro-library
 ```
 
+## Using the API
+The API can be tested via the swagger docs, which is accessible at [http://localhost:8080/swagger-ui/](http://localhost:8080/swagger-ui/) by default while the app is running
+
