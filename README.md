@@ -1,5 +1,5 @@
 # spj - munro-library
-![example workflow](https://github.com/github/docs/actions/workflows/master.yml/badge.svg)
+![workflow](https://github.com/StevenPJ/munro-library/actions/workflows/master.yml/badge.svg)
 
 
 Coding challenge. We are provided a CSV file containing information about munros and munro tops within Scotland. The goal of your solution is to create a simple API which other software can use to sort and filter the munro data. Your solution should be developed using either Java or Kotlin. You are welcome to use any relevant libraries or frameworks, including application frameworks such as Spring or Micronaut. However, you should not use a database (in-memory or otherwise) to implement the search functionality.
