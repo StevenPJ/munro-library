@@ -24,7 +24,7 @@ public class InMemoryMunroRepository implements MunroRepository {
         Stream<Munro> munros = this.munros.stream()
                 .filter(criteria::matches)
                 .sorted(criteria::sort);
-        
+
         if (criteria.getLimit() != null) {
             munros = munros.limit(criteria.getLimit());
         }

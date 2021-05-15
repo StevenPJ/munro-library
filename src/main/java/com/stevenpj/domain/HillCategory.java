@@ -1,7 +1,7 @@
 package com.stevenpj.domain;
 
-import io.micrometer.core.instrument.util.StringUtils;
 import java.util.function.Predicate;
+import org.apache.commons.lang3.StringUtils;
 
 public enum HillCategory {
     MUNRO("MUN"::equals),
