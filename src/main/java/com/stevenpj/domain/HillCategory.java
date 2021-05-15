@@ -1,17 +1,20 @@
 package com.stevenpj.domain;
 
+import java.util.function.Predicate;
 import lombok.Getter;
 
 public enum HillCategory {
-    MUNRO("MUN");
+    MUNRO("MUN"::equals),
+    MUNRO_TOP("TOP"::equals),
+    EITHER(category -> true);
 
-    private final String value;
+    private final Predicate<String> matcher;
 
-    HillCategory(String value) {
-        this.value = value;
+    HillCategory(Predicate<String> matcher) {
+        this.matcher = matcher;
     }
 
-    public boolean matches(Munro munro) {
-        return this.value.equals(munro.getHillCategory());
+    public boolean matches(String hillCategory) {
+        return matcher.test(hillCategory);
     }
 }

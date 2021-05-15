@@ -29,7 +29,7 @@ class MunroControllerSpecIT extends Specification {
 
     def "should return all munros"() {
         given:
-        1 * munroRepository.findAll() >> [
+        1 * munroRepository.findAll(_) >> [
                 Munro.builder()
                     .name('Ben Chonzie')
                     .heightInMeters(931)
@@ -56,5 +56,23 @@ class MunroControllerSpecIT extends Specification {
 
         then:
         1 * munroRepository.findAll(HillCategory.MUNRO)
+    }
+
+    def "should filter by either hill category by default"() {
+        when:
+        mvc.perform(get("/munros")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+
+        then:
+        1 * munroRepository.findAll(HillCategory.EITHER)
+    }
+
+    def "should return error when filtering by invalid category"() {
+        expect:
+        mvc.perform(get("/munros")
+                .param("hillCategory", "INVALID_CATEGORY")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
     }
 }

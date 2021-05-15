@@ -3,6 +3,7 @@ package com.stevenpj.infra;
 import com.stevenpj.domain.HillCategory;
 import com.stevenpj.domain.Munro;
 import com.stevenpj.domain.MunroRepository;
+import io.micrometer.core.instrument.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +25,8 @@ public class InMemoryMunroRepository implements MunroRepository {
     @Override
     public List<Munro> findAll(HillCategory hillCategory) {
         return findAll().stream()
-                .filter(hillCategory::matches)
+                .filter(munro -> StringUtils.isNotBlank(munro.getHillCategory()))
+                .filter(munro -> hillCategory.matches(munro.getHillCategory()))
                 .collect(Collectors.toList());
     }
 }

@@ -22,15 +22,34 @@ class InMemoryMunroRepositorySpec extends Specification {
     def "should filter by hill category"() {
         given:
         def munro = Munro.builder().hillCategory("MUN").build()
-        def other = Munro.builder().hillCategory("OTHER").build()
+        def munroTop = Munro.builder().hillCategory("TOP").build()
         repository.save(munro)
-        repository.save(other)
+        repository.save(munroTop)
 
         when:
-        def result = repository.findAll(HillCategory.MUNRO)
+        def result = repository.findAll(category)
 
         then:
-        result.contains(munro)
-        !result.contains(other)
+        result.collect{it.hillCategory} == matched
+
+        where:
+        category               | matched
+        HillCategory.MUNRO     | ["MUN"]
+        HillCategory.MUNRO_TOP | ["TOP"]
+        HillCategory.EITHER    | ["MUN", "TOP"]
+    }
+
+    def "should filter blank hillCategories"() {
+        given:
+        def munro = Munro.builder().hillCategory("MUN").build()
+        def blank = Munro.builder().build()
+        repository.save(munro)
+        repository.save(blank)
+
+        when:
+        def result = repository.findAll(HillCategory.EITHER)
+
+        then:
+        !result.contains(blank)
     }
 }
