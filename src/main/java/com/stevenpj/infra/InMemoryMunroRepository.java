@@ -23,6 +23,10 @@ public class InMemoryMunroRepository implements MunroRepository {
     public List<Munro> findAll(MunroCriteria criteria) {
         Stream<Munro> munros = this.munros.stream().filter(criteria::matches);
 
+        if (criteria.getSort() != null) {
+            munros = munros.sorted(criteria::sort);
+        }
+
         if (criteria.getLimit() != null) {
             munros = munros.limit(criteria.getLimit());
         }

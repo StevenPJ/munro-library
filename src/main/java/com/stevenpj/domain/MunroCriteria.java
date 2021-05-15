@@ -23,11 +23,18 @@ public class MunroCriteria {
     private Integer maxHeight;
 
     private String sort;
-    private SortOrder sortOrder;
+    private SortOrder sortOrder = SortOrder.DESCENDING;
 
     public boolean matches(Munro munro) {
         boolean isAtLeastMinHeight = minHeight == null || munro.getHeightInMeters() >= minHeight;
         boolean isLessThanMaxHeight = maxHeight == null || munro.getHeightInMeters() <= maxHeight;
         return hillCategory.matches(munro.getHillCategory()) && isAtLeastMinHeight && isLessThanMaxHeight;
+    }
+
+    public int sort(Munro munro, Munro other) {
+        if (SortOrder.ASCENDING == sortOrder) {
+            return munro.getHeightInMeters() - other.getHeightInMeters();
+        }
+        return other.getHeightInMeters() - munro.getHeightInMeters();
     }
 }

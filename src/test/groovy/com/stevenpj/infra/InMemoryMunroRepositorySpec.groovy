@@ -5,6 +5,7 @@ import com.stevenpj.domain.HillCategory
 import com.stevenpj.domain.Munro
 import com.stevenpj.domain.MunroCriteria
 import com.stevenpj.domain.MunroRepository
+import com.stevenpj.domain.SortOrder
 import spock.lang.Specification
 
 import static com.stevenpj.builder.MunroCriteriaBuilder.munroCriteria
@@ -118,7 +119,31 @@ class InMemoryMunroRepositorySpec extends Specification {
         6         | [1, 5]
     }
 
+    def "should sort by heightInMeters"() {
+        given:
+        repository.save(SMALL_MUNRO)
+        repository.save(LARGE_MUNRO)
+
+        when:
+        def result = repository.findAll(munroCriteria()
+                .sort("heightInMeters")
+                .sortOrder(sortOrder)
+                .build())
+
+        then:
+        result == expectedOrder
+
+        where:
+        sortOrder            | expectedOrder
+        SortOrder.DESCENDING | [LARGE_MUNRO, SMALL_MUNRO]
+        SortOrder.ASCENDING  | [SMALL_MUNRO, LARGE_MUNRO]
+    }
+
     static final Munro.MunroBuilder NON_BLANK_MUNROE = Munro.builder().hillCategory("MUN")
     static final Munro MUNROE = Munro.builder().hillCategory("MUN").build()
     static final Munro MUNROE_TOP = Munro.builder().hillCategory("TOP").build()
+
+    static final Munro LARGE_MUNRO = NON_BLANK_MUNROE.heightInMeters(999).build()
+    static final Munro SMALL_MUNRO = NON_BLANK_MUNROE.heightInMeters(1).build()
+
 }
