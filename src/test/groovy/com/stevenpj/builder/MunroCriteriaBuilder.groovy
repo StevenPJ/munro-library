@@ -21,8 +21,12 @@ class MunroCriteriaBuilder {
         return this
     }
 
+    MunroCriteriaBuilder minHeight(Integer minHeight) {
+        munroCriteria.minHeight = minHeight
+        return this
+    }
+
     MunroCriteria build() {
         return munroCriteria
     }
-
 }

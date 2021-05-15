@@ -48,15 +48,21 @@ class MunroControllerSpecIT extends Specification {
                 .andExpect(jsonPath('$.[0].gridReference', is('NN773308')))
     }
 
-    def "should filter by hill category"() {
+    def "should allow the user to specify search criteria"() {
         when:
         mvc.perform(get("/munros")
                 .param("hillCategory", HillCategory.MUNRO.name())
+                .param("limit", "2")
+                .param("minHeight", "10")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
 
         then:
-        1 * munroRepository.findAll(munroCriteria().with(HillCategory.MUNRO).build())
+        1 * munroRepository.findAll(munroCriteria()
+                .with(HillCategory.MUNRO)
+                .limit(2)
+                .minHeight(10)
+                .build())
     }
 
     def "should filter by either hill category by default"() {
@@ -75,17 +81,6 @@ class MunroControllerSpecIT extends Specification {
                 .param("hillCategory", "INVALID_CATEGORY")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
-    }
-
-    def "should limit number of results returned"() {
-        when:
-        mvc.perform(get("/munros")
-                .param("limit", "10")
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-
-        then:
-        1 * munroRepository.findAll(munroCriteria().limit(10).build())
     }
 
     def "should return error when limit is negative"() {

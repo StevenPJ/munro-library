@@ -34,7 +34,7 @@ class InMemoryMunroRepositorySpec extends Specification {
         def result = repository.findAll(munroCriteria().with(category).build())
 
         then:
-        result.collect{it.hillCategory} == matched
+        result.collect { it.hillCategory } == matched
 
         where:
         category               | matched
@@ -80,6 +80,26 @@ class InMemoryMunroRepositorySpec extends Specification {
         result.size() == 2
     }
 
+    def "should filter by minimum height"() {
+        given:
+        repository.save(NON_BLANK_MUNROE.heightInMeters(1).build())
+        repository.save(NON_BLANK_MUNROE.heightInMeters(5).build())
+
+        when:
+        def result = repository.findAll(munroCriteria().minHeight(minHeight).build())
+
+        then:
+        result.collect { it.heightInMeters } == matched
+
+        where:
+        minHeight | matched
+        0         | [1, 5]
+        1         | [1, 5]
+        5         | [5]
+        6         | []
+    }
+
+    static final Munro.MunroBuilder NON_BLANK_MUNROE = Munro.builder().hillCategory("MUN")
     static final Munro MUNROE = Munro.builder().hillCategory("MUN").build()
-    static final Munro MUNROE_TOP= Munro.builder().hillCategory("TOP").build()
+    static final Munro MUNROE_TOP = Munro.builder().hillCategory("TOP").build()
 }

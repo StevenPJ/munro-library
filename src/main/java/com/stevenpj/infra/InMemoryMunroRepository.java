@@ -6,6 +6,7 @@ import com.stevenpj.domain.MunroRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,15 +21,12 @@ public class InMemoryMunroRepository implements MunroRepository {
 
     @Override
     public List<Munro> findAll(MunroCriteria criteria) {
-        List<Munro> munros = this.munros.stream()
-                .filter(criteria::matches)
-                .collect(Collectors.toList());
+        Stream<Munro> munros = this.munros.stream().filter(criteria::matches);
 
         if (criteria.getLimit() != null) {
-            return munros.stream()
-                    .limit(criteria.getLimit())
-                    .collect(Collectors.toList());
+            munros = munros.limit(criteria.getLimit());
         }
-        return munros;
+
+        return munros.collect(Collectors.toList());
     }
 }

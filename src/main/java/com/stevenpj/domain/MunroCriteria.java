@@ -1,6 +1,5 @@
 package com.stevenpj.domain;
 
-import io.micrometer.core.instrument.util.StringUtils;
 import javax.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,8 +15,10 @@ public class MunroCriteria {
     @Min(0)
     private Integer limit;
 
+    private Integer minHeight;
+
     public boolean matches(Munro munro) {
-        boolean isNotBlank = StringUtils.isNotBlank(munro.getHillCategory());
-        return isNotBlank && hillCategory.matches(munro.getHillCategory());
+        boolean isAtLeastMinHeight = minHeight == null || munro.getHeightInMeters() >= minHeight;
+        return hillCategory.matches(munro.getHillCategory()) && isAtLeastMinHeight;
     }
 }

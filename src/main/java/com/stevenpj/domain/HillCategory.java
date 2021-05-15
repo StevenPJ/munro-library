@@ -1,12 +1,12 @@
 package com.stevenpj.domain;
 
+import io.micrometer.core.instrument.util.StringUtils;
 import java.util.function.Predicate;
-import lombok.Getter;
 
 public enum HillCategory {
     MUNRO("MUN"::equals),
     MUNRO_TOP("TOP"::equals),
-    EITHER(category -> true);
+    EITHER(StringUtils::isNotBlank);
 
     private final Predicate<String> matcher;
 
