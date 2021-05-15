@@ -1,4 +1,6 @@
 # spj - munro-library
+![example workflow](https://github.com/github/docs/actions/workflows/master.yml/badge.svg)
+
 
 Coding challenge. We are provided a CSV file containing information about munros and munro tops within Scotland. The goal of your solution is to create a simple API which other software can use to sort and filter the munro data. Your solution should be developed using either Java or Kotlin. You are welcome to use any relevant libraries or frameworks, including application frameworks such as Spring or Micronaut. However, you should not use a database (in-memory or otherwise) to implement the search functionality.
 
@@ -28,14 +30,29 @@ minimum height)
 This is not to see how much time you take or at what times you worked on the solution but is so that we can evaluate how you broke down and approached the problem.
   
 
-# Running locally
+# Requirements
 
 - Java 11
 - [Docker](https://docs.docker.com/docker-for-mac/install/)
 
 
-`mvn spring-boot:run`
+# Running locally
 
+## Running the tests
+```
+./mvnw verify # all tests
+./mvnw test   # unit tests only
+```
 
-`mvn test`
+## Running the app
+```
+./mvnw spring-boot:run # using maven
+docker compose up -d   # using docker
+```
+
+## Building a Docker image
+```
+./mvnw package
+docker build . -t munro-library
+```
 
