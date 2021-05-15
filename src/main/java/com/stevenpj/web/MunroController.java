@@ -1,6 +1,8 @@
 package com.stevenpj.web;
 
 import com.stevenpj.domain.HillCategory;
+import com.stevenpj.domain.HillCategoryCriteria;
+import com.stevenpj.domain.LimitCriteria;
 import com.stevenpj.domain.Munro;
 import com.stevenpj.domain.MunroRepository;
 import java.util.List;
@@ -18,8 +20,14 @@ public class MunroController {
     private final MunroRepository munroRepository;
 
     @GetMapping
-    public List<Munro> find(@RequestParam(value = "hillCategory", required = false, defaultValue = "EITHER") HillCategory hillCategory) {
-        return munroRepository.findAll(hillCategory);
+    public List<Munro> find(
+            @RequestParam(value = "hillCategory", required = false, defaultValue = "EITHER") HillCategory hillCategory,
+            @RequestParam(value = "limit", required = false) Integer limit
+    ) {
+        if (limit != null) {
+            return munroRepository.findAll(new LimitCriteria(limit));
+        }
+        return munroRepository.findAll(new HillCategoryCriteria(hillCategory));
     }
 
 }

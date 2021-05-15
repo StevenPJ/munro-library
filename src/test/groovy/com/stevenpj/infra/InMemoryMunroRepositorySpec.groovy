@@ -1,7 +1,7 @@
 package com.stevenpj.infra
 
 import com.stevenpj.domain.HillCategory
-
+import com.stevenpj.domain.HillCategoryCriteria
 import com.stevenpj.domain.Munro
 import com.stevenpj.domain.MunroRepository
 import spock.lang.Specification
@@ -27,7 +27,7 @@ class InMemoryMunroRepositorySpec extends Specification {
         repository.save(munroTop)
 
         when:
-        def result = repository.findAll(category)
+        def result = repository.findAll(new HillCategoryCriteria(category))
 
         then:
         result.collect{it.hillCategory} == matched
@@ -47,7 +47,7 @@ class InMemoryMunroRepositorySpec extends Specification {
         repository.save(blank)
 
         when:
-        def result = repository.findAll(HillCategory.EITHER)
+        def result = repository.findAll(new HillCategoryCriteria(HillCategory.EITHER))
 
         then:
         !result.contains(blank)

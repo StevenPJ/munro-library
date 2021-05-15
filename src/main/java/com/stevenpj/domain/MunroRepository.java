@@ -8,5 +8,5 @@ public interface MunroRepository {
 
     void save(Munro munro);
 
-    List<Munro> findAll(HillCategory hillCategory);
+    List<Munro> findAll(MunroCriteria criteria);
 }

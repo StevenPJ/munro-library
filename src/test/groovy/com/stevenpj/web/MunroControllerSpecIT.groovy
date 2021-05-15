@@ -1,7 +1,8 @@
 package com.stevenpj.web
 
 import com.stevenpj.domain.HillCategory
-
+import com.stevenpj.domain.HillCategoryCriteria
+import com.stevenpj.domain.LimitCriteria
 import com.stevenpj.domain.Munro
 import com.stevenpj.domain.MunroRepository
 import org.spockframework.spring.SpringBean
@@ -55,7 +56,7 @@ class MunroControllerSpecIT extends Specification {
                 .andExpect(status().isOk())
 
         then:
-        1 * munroRepository.findAll(HillCategory.MUNRO)
+        1 * munroRepository.findAll(new HillCategoryCriteria(HillCategory.MUNRO))
     }
 
     def "should filter by either hill category by default"() {
@@ -65,7 +66,7 @@ class MunroControllerSpecIT extends Specification {
                 .andExpect(status().isOk())
 
         then:
-        1 * munroRepository.findAll(HillCategory.EITHER)
+        1 * munroRepository.findAll(new HillCategoryCriteria(HillCategory.EITHER))
     }
 
     def "should return error when filtering by invalid category"() {
@@ -74,5 +75,16 @@ class MunroControllerSpecIT extends Specification {
                 .param("hillCategory", "INVALID_CATEGORY")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
+    }
+
+    def "should limit number of results returned"() {
+        when:
+        mvc.perform(get("/munros")
+                .param("limit", "10")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+
+        then:
+        1 * munroRepository.findAll(new LimitCriteria(10))
     }
 }
