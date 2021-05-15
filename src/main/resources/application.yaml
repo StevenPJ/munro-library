@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  main:
+    banner-mode: 'off'
+
+management:
+  server:
+    port: 8081
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    enable:
+      jvm: false
+      tomcat: false
+      system: false
+      process: false
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
