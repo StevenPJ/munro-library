@@ -4,6 +4,7 @@ import com.stevenpj.domain.HillCategory
 
 import com.stevenpj.domain.Munro
 import com.stevenpj.domain.MunroRepository
+import com.stevenpj.domain.SortOrder
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -55,6 +56,8 @@ class MunroControllerSpecIT extends Specification {
                 .param("limit", "2")
                 .param("minHeight", "10")
                 .param("maxHeight", "20")
+                .param("sort", "heightInMeters")
+                .param("sortOrder", "DESCENDING")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
 
@@ -64,6 +67,8 @@ class MunroControllerSpecIT extends Specification {
                 .limit(2)
                 .minHeight(10)
                 .maxHeight(20)
+                .sort("heightInMeters")
+                .sortOrder(SortOrder.DESCENDING)
                 .build())
     }
 
