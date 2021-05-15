@@ -1,15 +1,12 @@
 package com.stevenpj.web;
 
-import com.stevenpj.domain.HillCategory;
-import com.stevenpj.domain.HillCategoryCriteria;
-import com.stevenpj.domain.LimitCriteria;
 import com.stevenpj.domain.Munro;
+import com.stevenpj.domain.MunroCriteria;
 import com.stevenpj.domain.MunroRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,14 +17,8 @@ public class MunroController {
     private final MunroRepository munroRepository;
 
     @GetMapping
-    public List<Munro> find(
-            @RequestParam(value = "hillCategory", required = false, defaultValue = "EITHER") HillCategory hillCategory,
-            @RequestParam(value = "limit", required = false) Integer limit
-    ) {
-        if (limit != null) {
-            return munroRepository.findAll(new LimitCriteria(limit));
-        }
-        return munroRepository.findAll(new HillCategoryCriteria(hillCategory));
+    public List<Munro> find(MunroCriteria criteria) {
+        return munroRepository.findAll(criteria);
     }
 
 }

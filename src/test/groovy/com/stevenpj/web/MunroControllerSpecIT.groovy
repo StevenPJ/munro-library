@@ -1,8 +1,7 @@
 package com.stevenpj.web
 
 import com.stevenpj.domain.HillCategory
-import com.stevenpj.domain.HillCategoryCriteria
-import com.stevenpj.domain.LimitCriteria
+
 import com.stevenpj.domain.Munro
 import com.stevenpj.domain.MunroRepository
 import org.spockframework.spring.SpringBean
@@ -13,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification
 
+import static com.stevenpj.builder.MunroCriteriaBuilder.munroCriteria
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -56,7 +56,7 @@ class MunroControllerSpecIT extends Specification {
                 .andExpect(status().isOk())
 
         then:
-        1 * munroRepository.findAll(new HillCategoryCriteria(HillCategory.MUNRO))
+        1 * munroRepository.findAll(munroCriteria().with(HillCategory.MUNRO).build())
     }
 
     def "should filter by either hill category by default"() {
@@ -66,7 +66,7 @@ class MunroControllerSpecIT extends Specification {
                 .andExpect(status().isOk())
 
         then:
-        1 * munroRepository.findAll(new HillCategoryCriteria(HillCategory.EITHER))
+        1 * munroRepository.findAll(munroCriteria().with(HillCategory.EITHER).build())
     }
 
     def "should return error when filtering by invalid category"() {
@@ -85,6 +85,6 @@ class MunroControllerSpecIT extends Specification {
                 .andExpect(status().isOk())
 
         then:
-        1 * munroRepository.findAll(new LimitCriteria(10))
+        1 * munroRepository.findAll(munroCriteria().limit(10).build())
     }
 }
