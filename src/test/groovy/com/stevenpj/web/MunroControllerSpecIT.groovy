@@ -92,4 +92,13 @@ class MunroControllerSpecIT extends Specification {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
     }
+
+    def "should return error when maxHeight is less than minHeight"() {
+        expect:
+        mvc.perform(get("/munros")
+                .param("minHeight", "5")
+                .param("maxHeight", "1")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+    }
 }

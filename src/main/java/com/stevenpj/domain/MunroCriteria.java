@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@ValidMunroCriteria
 public class MunroCriteria {
 
     private HillCategory hillCategory = HillCategory.EITHER;
