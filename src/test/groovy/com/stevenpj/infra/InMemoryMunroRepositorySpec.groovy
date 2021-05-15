@@ -34,13 +34,13 @@ class InMemoryMunroRepositorySpec extends Specification {
         def result = repository.findAll(munroCriteria().with(category).build())
 
         then:
-        result.collect { it.hillCategory } == matched
+        result == matched
 
         where:
         category               | matched
-        HillCategory.MUNRO     | ["MUN"]
-        HillCategory.MUNRO_TOP | ["TOP"]
-        HillCategory.EITHER    | ["MUN", "TOP"]
+        HillCategory.MUNRO     | [MUNROE]
+        HillCategory.MUNRO_TOP | [MUNROE_TOP]
+        HillCategory.EITHER    | [MUNROE, MUNROE_TOP]
     }
 
     def "should filter blank hillCategories"() {
