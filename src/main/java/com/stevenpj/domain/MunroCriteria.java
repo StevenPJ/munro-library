@@ -1,6 +1,7 @@
 package com.stevenpj.domain;
 
 import io.micrometer.core.instrument.util.StringUtils;
+import javax.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class MunroCriteria {
+
     private HillCategory hillCategory = HillCategory.EITHER;
+
+    @Min(0)
     private Integer limit;
 
     public boolean matches(Munro munro) {

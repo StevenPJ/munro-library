@@ -4,6 +4,7 @@ import com.stevenpj.domain.Munro;
 import com.stevenpj.domain.MunroCriteria;
 import com.stevenpj.domain.MunroRepository;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ public class MunroController {
     private final MunroRepository munroRepository;
 
     @GetMapping
-    public List<Munro> find(MunroCriteria criteria) {
+    public List<Munro> find(@Valid MunroCriteria criteria) {
         return munroRepository.findAll(criteria);
     }
 

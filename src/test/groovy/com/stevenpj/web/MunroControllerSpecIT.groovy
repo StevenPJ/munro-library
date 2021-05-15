@@ -87,4 +87,12 @@ class MunroControllerSpecIT extends Specification {
         then:
         1 * munroRepository.findAll(munroCriteria().limit(10).build())
     }
+
+    def "should return error when limit is negative"() {
+        expect:
+        mvc.perform(get("/munros")
+                .param("limit", "-1")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+    }
 }
