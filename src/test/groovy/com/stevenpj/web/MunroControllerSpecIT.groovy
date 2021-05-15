@@ -106,4 +106,12 @@ class MunroControllerSpecIT extends Specification {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
     }
+
+    def "should return error sorting by invalid field"() {
+        expect:
+        mvc.perform(get("/munros")
+                .param("sort", "INVALID")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+    }
 }
