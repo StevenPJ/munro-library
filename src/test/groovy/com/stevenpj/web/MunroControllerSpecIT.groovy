@@ -1,5 +1,7 @@
 package com.stevenpj.web
 
+import com.stevenpj.domain.HillCategory
+
 import com.stevenpj.domain.Munro
 import com.stevenpj.domain.MunroRepository
 import org.spockframework.spring.SpringBean
@@ -43,5 +45,16 @@ class MunroControllerSpecIT extends Specification {
                 .andExpect(jsonPath('$.[0].heightInMeters', is(931)))
                 .andExpect(jsonPath('$.[0].hillCategory', is('MUN')))
                 .andExpect(jsonPath('$.[0].gridReference', is('NN773308')))
+    }
+
+    def "should filter by hill category"() {
+        when:
+        mvc.perform(get("/munros")
+                .param("hillCategory", HillCategory.MUNRO.name())
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+
+        then:
+        1 * munroRepository.findAll(HillCategory.MUNRO)
     }
 }
