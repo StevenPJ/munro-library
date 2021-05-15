@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 public enum SortOrder {
     ASCENDING(comparator -> comparator),
-    DESCENDING(comparator -> (munro, other) -> comparator.compare(other, munro));
+    DESCENDING(Comparator::reversed);
 
     private final ComparatorDecorator decorator;
 
