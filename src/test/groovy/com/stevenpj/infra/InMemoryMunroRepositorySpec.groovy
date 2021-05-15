@@ -99,6 +99,25 @@ class InMemoryMunroRepositorySpec extends Specification {
         6         | []
     }
 
+    def "should filter by maximum height"() {
+        given:
+        repository.save(NON_BLANK_MUNROE.heightInMeters(1).build())
+        repository.save(NON_BLANK_MUNROE.heightInMeters(5).build())
+
+        when:
+        def result = repository.findAll(munroCriteria().maxHeight(maxHeight).build())
+
+        then:
+        result.collect { it.heightInMeters } == matched
+
+        where:
+        maxHeight | matched
+        0         | []
+        1         | [1]
+        5         | [1, 5]
+        6         | [1, 5]
+    }
+
     static final Munro.MunroBuilder NON_BLANK_MUNROE = Munro.builder().hillCategory("MUN")
     static final Munro MUNROE = Munro.builder().hillCategory("MUN").build()
     static final Munro MUNROE_TOP = Munro.builder().hillCategory("TOP").build()

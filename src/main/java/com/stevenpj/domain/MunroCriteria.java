@@ -16,9 +16,11 @@ public class MunroCriteria {
     private Integer limit;
 
     private Integer minHeight;
+    private Integer maxHeight;
 
     public boolean matches(Munro munro) {
         boolean isAtLeastMinHeight = minHeight == null || munro.getHeightInMeters() >= minHeight;
-        return hillCategory.matches(munro.getHillCategory()) && isAtLeastMinHeight;
+        boolean isLessThanMaxHeight = maxHeight == null || munro.getHeightInMeters() <= maxHeight;
+        return hillCategory.matches(munro.getHillCategory()) && isAtLeastMinHeight && isLessThanMaxHeight;
     }
 }

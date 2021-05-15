@@ -26,6 +26,11 @@ class MunroCriteriaBuilder {
         return this
     }
 
+    MunroCriteriaBuilder maxHeight(Integer maxHeight) {
+        munroCriteria.maxHeight = maxHeight
+        return this
+    }
+
     MunroCriteria build() {
         return munroCriteria
     }

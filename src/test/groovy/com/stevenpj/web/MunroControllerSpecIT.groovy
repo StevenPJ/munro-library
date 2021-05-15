@@ -54,6 +54,7 @@ class MunroControllerSpecIT extends Specification {
                 .param("hillCategory", HillCategory.MUNRO.name())
                 .param("limit", "2")
                 .param("minHeight", "10")
+                .param("maxHeight", "20")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
 
@@ -62,6 +63,7 @@ class MunroControllerSpecIT extends Specification {
                 .with(HillCategory.MUNRO)
                 .limit(2)
                 .minHeight(10)
+                .maxHeight(20)
                 .build())
     }
 
