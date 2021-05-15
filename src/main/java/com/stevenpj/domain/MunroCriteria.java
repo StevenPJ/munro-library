@@ -32,9 +32,23 @@ public class MunroCriteria {
     }
 
     public int sort(Munro munro, Munro other) {
+        if ("heightInMeters".equals(sort)) {
+            return sortByHeightInMeters(munro, other);
+        }
+        return sortByName(munro, other);
+    }
+
+    private int sortByHeightInMeters(Munro munro, Munro other) {
         if (SortOrder.ASCENDING == sortOrder) {
             return munro.getHeightInMeters() - other.getHeightInMeters();
         }
         return other.getHeightInMeters() - munro.getHeightInMeters();
+    }
+
+    private int sortByName(Munro munro, Munro other) {
+        if (SortOrder.ASCENDING == sortOrder) {
+            return munro.getName().compareTo(other.getName());
+        }
+        return other.getName().compareTo(munro.getName());
     }
 }

@@ -139,11 +139,34 @@ class InMemoryMunroRepositorySpec extends Specification {
         SortOrder.ASCENDING  | [SMALL_MUNRO, LARGE_MUNRO]
     }
 
+    def "should sort by name"() {
+        given:
+        repository.save(BEN_LOMOND)
+        repository.save(CRUACH_ARDRAIN)
+
+        when:
+        def result = repository.findAll(munroCriteria()
+                .sort("name")
+                .sortOrder(sortOrder)
+                .build())
+
+        then:
+        result == expectedOrder
+
+        where:
+        sortOrder            | expectedOrder
+        SortOrder.DESCENDING | [CRUACH_ARDRAIN, BEN_LOMOND]
+        SortOrder.ASCENDING  | [BEN_LOMOND, CRUACH_ARDRAIN]
+    }
+
     static final Munro.MunroBuilder NON_BLANK_MUNROE = Munro.builder().hillCategory("MUN")
     static final Munro MUNROE = Munro.builder().hillCategory("MUN").build()
     static final Munro MUNROE_TOP = Munro.builder().hillCategory("TOP").build()
 
     static final Munro LARGE_MUNRO = NON_BLANK_MUNROE.heightInMeters(999).build()
     static final Munro SMALL_MUNRO = NON_BLANK_MUNROE.heightInMeters(1).build()
+
+    static final Munro BEN_LOMOND = NON_BLANK_MUNROE.name("Ben Lomond").build()
+    static final Munro CRUACH_ARDRAIN = NON_BLANK_MUNROE.name("Cruach Ardrain").build()
 
 }
