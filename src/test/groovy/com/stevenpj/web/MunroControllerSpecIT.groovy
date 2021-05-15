@@ -44,7 +44,7 @@ class MunroControllerSpecIT extends Specification {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath('$.[0].name', is('Ben Chonzie')))
-                .andExpect(jsonPath('$.[0].heightInMeters', is(931)))
+                .andExpect(jsonPath('$.[0].heightInMeters', is(Double.valueOf(931.0))))
                 .andExpect(jsonPath('$.[0].hillCategory', is('MUN')))
                 .andExpect(jsonPath('$.[0].gridReference', is('NN773308')))
     }

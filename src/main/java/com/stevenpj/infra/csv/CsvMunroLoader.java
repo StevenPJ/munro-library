@@ -7,7 +7,9 @@ import com.stevenpj.domain.Munro;
 import java.io.InputStreamReader;
 import java.util.List;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CsvMunroLoader {
 
     public List<Munro> loadFrom(Resource resource) {

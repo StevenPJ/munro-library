@@ -5,7 +5,7 @@ import lombok.Getter;
 
 public enum SortBy {
     None((m, o) -> 0),
-    heightInMeters(Comparator.comparingInt(Munro::getHeightInMeters)),
+    heightInMeters(Comparator.comparingDouble(Munro::getHeightInMeters)),
     name(Comparator.comparing(Munro::getName));
 
     @Getter

@@ -16,7 +16,7 @@ public class Munro {
     private String name;
 
     @CsvBindByName(column = "Height (m)")
-    private Integer heightInMeters;
+    private Float heightInMeters;
 
     @CsvBindByName(column = "Post 1997")
     private String hillCategory;
